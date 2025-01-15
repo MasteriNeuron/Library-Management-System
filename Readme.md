@@ -235,7 +235,12 @@ Exiting Library Management System. Goodbye!
 - All borrowing and returning actions are logged with timestamps in `library.log`.
 - Example log entry:
   ```
-  2025-01-15 11:45:30.238505 - Borrow: Naina borrowed Train to Pakistan.
+   2025-01-15 11:45:30.238505 - Borrow: Naina borrowed Train to Pakistan.
+   2025-01-15 11:45:53.490194 - Borrow: Shubham borrowed The God of Small Things.
+   2025-01-15 11:47:33.904193 - Borrow: The God of Small Things is not available.
+   2025-01-15 11:47:54.114846 - Return: Shubham returned The God of Small Things.
+
+
   ```
 
 ## License
