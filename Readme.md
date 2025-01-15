@@ -74,7 +74,7 @@ The **Library Management System** is a non-UI-based software solution designed t
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/MasteriNeuron/Library-Management-System.git]
+   git clone https://github.com/MasteriNeuron/Library-Management-System.git
    cd library-management-system
    ```
 2. Ensure Python dependencies are installed (if any).
