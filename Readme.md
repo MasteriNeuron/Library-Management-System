@@ -1,4 +1,5 @@
 # Library Management System
+![image](https://github.com/user-attachments/assets/14013e23-c9e8-46d0-818e-985a6d976dec)
 
 ## Project Overview
 The **Library Management System** is a non-UI-based software solution designed to manage library operations programmatically. Built using Python, it leverages core Object-Oriented Programming System (OOPS) principles to provide a robust, modular, and scalable platform for handling library items, members, and transactions.
