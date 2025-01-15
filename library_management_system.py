@@ -3,7 +3,15 @@ from datetime import datetime
 
 # Base class for Library Items
 class LibraryItem(ABC):
+    """
+    Abstract base class for library items such as books and magazines.
+    Defines the common properties and methods for all library items.
+    """
     def __init__(self, title, author, item_id):
+        """
+        Initialize a library item with title, author, and unique item ID.
+        Items are available by default.
+        """
         self.title = title
         self.author = author
         self.item_id = item_id
@@ -11,28 +19,50 @@ class LibraryItem(ABC):
 
     @abstractmethod
     def display_info(self):
+        """
+        Abstract method to display item information.
+        Must be implemented by subclasses.
+        """
         pass
 
 # Subclass for Book
 class Book(LibraryItem):
+    """
+    Represents a book in the library.
+    Inherits from LibraryItem and adds ISBN attribute.
+    """
     def __init__(self, title, author, item_id, isbn):
         super().__init__(title, author, item_id)
         self.isbn = isbn
 
     def display_info(self):
+        """
+        Displays book-specific information.
+        """
         return f"Book - Title: {self.title}, Author: {self.author}, ISBN: {self.isbn}, Available: {self.is_available}"
 
 # Subclass for Magazine
 class Magazine(LibraryItem):
+    """
+    Represents a magazine in the library.
+    Inherits from LibraryItem and adds issue number attribute.
+    """
     def __init__(self, title, author, item_id, issue_number):
         super().__init__(title, author, item_id)
         self.issue_number = issue_number
 
     def display_info(self):
+        """
+        Displays magazine-specific information.
+        """
         return f"Magazine - Title: {self.title}, Author: {self.author}, Issue: {self.issue_number}, Available: {self.is_available}"
 
 # User class
 class User:
+    """
+    Represents a library user who can borrow and return items.
+    Tracks user name, ID, membership status, and borrowed items.
+    """
     def __init__(self, name, user_id, is_member):
         self.name = name
         self.user_id = user_id
@@ -40,6 +70,10 @@ class User:
         self.borrowed_items = []
 
     def borrow_item(self, item):
+        """
+        Allows a user to borrow an item if it is available.
+        Updates the item's availability status.
+        """
         if item.is_available:
             item.is_available = False
             self.borrowed_items.append(item)
@@ -47,6 +81,10 @@ class User:
         return f"{item.title} is not available."
 
     def return_item(self, item):
+        """
+        Allows a user to return a borrowed item.
+        Updates the item's availability status.
+        """
         if item in self.borrowed_items:
             item.is_available = True
             self.borrowed_items.remove(item)
@@ -55,6 +93,10 @@ class User:
 
 # Decorators for logging and validation
 def log_action(action):
+    """
+    Decorator to log actions such as borrowing or returning items.
+    Writes log entries to a file and optionally prints them to the console.
+    """
     def decorator(func):
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
@@ -67,6 +109,10 @@ def log_action(action):
     return decorator
 
 def membership_required(func):
+    """
+    Decorator to enforce that a user must be a library member
+    to perform certain actions, such as borrowing or returning items.
+    """
     def wrapper(*args, **kwargs):
         # The second argument is the user when the method is bound to a class
         user = args[1]
@@ -77,17 +123,31 @@ def membership_required(func):
 
 # Library class
 class Library:
+    """
+    Represents the library system.
+    Manages items, members, and user interactions like borrowing or returning items.
+    """
     def __init__(self):
         self.items = []
         self.members = []
 
     def add_item(self, item):
+        """
+        Adds a library item (book or magazine) to the library.
+        """
         self.items.append(item)
 
     def add_member(self, user):
+        """
+        Adds a user as a member of the library.
+        """
         self.members.append(user)
 
     def search_items(self, **criteria):
+        """
+        Searches library items based on criteria such as title or author.
+        Returns a list of matching items.
+        """
         results = self.items
         for key, value in criteria.items():
             value_lower = value.lower()
@@ -99,6 +159,10 @@ class Library:
 
 
     def display_items(self):
+        """
+        Displays information for all items in the library.
+        Returns a message if no items are available.
+        """
         if not self.items:
             return "No items available in the library."
         return [item.display_info() for item in self.items]
@@ -106,6 +170,10 @@ class Library:
     @membership_required
     @log_action("Borrow")
     def borrow_item(self, user, item_id):
+        """
+        Allows a member to borrow an item if available.
+        Logs the action and checks membership status.
+        """
         item = next((i for i in self.items if i.item_id == item_id), None)
         if item:
             return user.borrow_item(item)
@@ -114,6 +182,10 @@ class Library:
     @membership_required
     @log_action("Return")
     def return_item(self, user, item_id):
+        """
+        Allows a member to return a borrowed item.
+        Logs the action and checks membership status.
+        """
         item = next((i for i in self.items if i.item_id == item_id), None)
         if item:
             return user.return_item(item)
@@ -121,6 +193,10 @@ class Library:
 
 # CLI-based interaction for user-friendliness
 def main():
+    """
+    Main function to interact with the library system using a CLI interface.
+    Handles user choices and performs actions accordingly.
+    """
     library = Library()
 
     # Predefined items and members
